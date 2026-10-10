@@ -50,7 +50,9 @@ test("starts, switches, stops and restores an elapsed timer after reload", async
   expect(data.records[0].endTime).not.toBeNull();
   expect(data.records[1].categoryId).toBe("meal");
   await page.getByRole("button", { name: "終了", exact: true }).click();
-  await expect(page.getByText("あなたのペースで、はじめよう")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "記録をはじめる" }),
+  ).toBeVisible();
   expect(
     (await read(page)).records.every(
       (r: { endTime: number | null }) => r.endTime !== null,
@@ -241,7 +243,9 @@ test("exports and restores a backup, and retains data when an invalid file is se
   await page.getByRole("button", { name: "勉強", exact: true }).click();
   await page.clock.fastForward("30:00");
   await page.getByRole("button", { name: "終了", exact: true }).click();
-  await expect(page.getByText("あなたのペースで、はじめよう")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "記録をはじめる" }),
+  ).toBeVisible();
   await tab(page, "設定");
   const downloaded = page.waitForEvent("download");
   await page.getByRole("button", { name: "書き出す", exact: true }).click();
@@ -261,13 +265,11 @@ test("exports and restores a backup, and retains data when an invalid file is se
   const restored = await read(page);
   expect(restored.records).toHaveLength(1);
   expect(restored.mainRecordId).toBeNull();
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "invalid.json",
-      mimeType: "application/json",
-      buffer: Buffer.from('{"version":1}'),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "invalid.json",
+    mimeType: "application/json",
+    buffer: Buffer.from('{"version":1}'),
+  });
   await expect(page.getByRole("status")).toContainText(
     "このファイルは読み込めません",
   );

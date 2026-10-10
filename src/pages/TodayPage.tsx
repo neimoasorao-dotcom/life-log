@@ -67,21 +67,6 @@ export function TodayPage({
   }
   return (
     <>
-      <div className="page-heading heading-with-action">
-        <div>
-          <div className="eyebrow">A LITTLE LOOK BACK</div>
-          <h1>今日の流れ</h1>
-          <p>一日を眺めて、気軽に整える。</p>
-        </div>
-        <button
-          className="button primary add-record"
-          aria-label="記録を追加"
-          onClick={() => setEditing("new")}
-        >
-          <Plus size={19} />
-          <span>記録を追加</span>
-        </button>
-      </div>
       <section className="today-card">
         <div className="date-toolbar">
           <button
@@ -201,6 +186,13 @@ export function TodayPage({
             </div>
           </div>
         </div>
+        <button
+          className="button primary add-record"
+          aria-label="記録を追加"
+          onClick={() => setEditing("new")}
+        >
+          <Plus size={22} />
+        </button>
         <div className="timeline-footer">
           <Layers2 size={16} />
           <span>重なった記録は横に並びます。タップで編集。</span>

@@ -72,17 +72,7 @@ export default function App() {
       </aside>
       <div className="main-area">
         <header className="topbar">
-          <a
-            className="mobile-brand"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              goTab("record");
-            }}
-          >
-            <Sprout size={23} strokeWidth={1.6} />
-            life log
-          </a>
+          <h1>{tabs.find((item) => item.id === tab)!.label}</h1>
           <span className="topbar-date">{dateLabel(dayKey(now))}</span>
           <span className="local-badge">
             <span />

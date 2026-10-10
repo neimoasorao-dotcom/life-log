@@ -68,11 +68,6 @@ export function SettingsPage({
   }
   return (
     <>
-      <div className="page-heading">
-        <div className="eyebrow">KEEP IT SIMPLE</div>
-        <h1>自分に合う設定</h1>
-        <p>いつもの予定を、いつものリズムで。</p>
-      </div>
       <div className="settings-grid">
         <section className="panel template-panel">
           <div className="section-title">
@@ -83,9 +78,7 @@ export function SettingsPage({
             <span className="subtle-tag">自動記録</span>
           </div>
           <p className="section-description">
-            学校や塾など、毎週の活動を登録。
-            <br />
-            タイマーを押さなくても記録が残ります。
+            毎週の活動を、自動で記録します。
           </p>
           <div className="weekday-tabs" aria-label="テンプレートの曜日">
             {weekdays.map((day, i) => (
@@ -135,7 +128,7 @@ export function SettingsPage({
             テンプレートを追加
           </button>
           <p className="field-hint template-hint">
-            登録した日から毎週生成されます。アプリを開くと、開かなかった日の分も補完。変更は未生成の記録に反映し、その日の記録は「今日」で自由に編集できます。
+            アプリを開くと未生成の日も補完します。当日の記録は「今日」で編集できます。
           </p>
         </section>
         <section className="panel manage-panel">
@@ -169,7 +162,6 @@ export function SettingsPage({
               <ShieldCheck size={20} />
               大切な記録の保存
             </h2>
-            <span className="tiny-label">LOCAL FIRST</span>
           </div>
           <p className="section-description">
             データはこのブラウザの中だけに保存されます。

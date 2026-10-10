@@ -49,14 +49,6 @@ export function RecordPage({
   }
   return (
     <>
-      <div className="page-heading">
-        <div className="eyebrow">MAKE TIME FOR YOURSELF</div>
-        <h1>
-          記録
-          <span className="heading-dot" />
-        </h1>
-        <p>今の時間を、そっと残そう。</p>
-      </div>
       <div className="record-layout">
         <div className="record-main">
           <section
@@ -75,27 +67,23 @@ export function RecordPage({
                   >
                     <div className="timer-top">
                       <CategoryBadge category={category} />
-                      <div>
-                        <span className="tiny-label">
-                          {record.id === data.mainRecordId
-                            ? "現在の記録"
-                            : "同時に記録中"}
-                        </span>
+                      <div className="timer-details">
                         <h2>{category.name}</h2>
+                        <div
+                          className="timer-digits"
+                          aria-label={`${category.name}の経過時間`}
+                        >
+                          {formatClock(now - record.startTime)}
+                        </div>
+                        <div className="timer-meta">
+                          {clockTime(record.startTime)} から
+                          {record.id !== data.mainRecordId && " · 同時記録"}
+                        </div>
                       </div>
                       <span className="live-label">
                         <i />
                         記録中
                       </span>
-                    </div>
-                    <div
-                      className="timer-digits"
-                      aria-label={`${category.name}の経過時間`}
-                    >
-                      {formatClock(now - record.startTime)}
-                    </div>
-                    <div className="timer-meta">
-                      {clockTime(record.startTime)} から
                     </div>
                     <div className="timer-actions">
                       <button
@@ -121,26 +109,19 @@ export function RecordPage({
               })
             ) : (
               <div className="empty-timer">
-                <div className="empty-timer-top">
-                  <span className="timer-symbol">
-                    <Clock3 size={29} strokeWidth={1.4} />
-                  </span>
-                  <span className="tiny-label">
-                    あなたのペースで、はじめよう
-                  </span>
+                <span className="timer-symbol">
+                  <Clock3 size={24} strokeWidth={1.6} />
+                </span>
+                <div>
+                  <h2>記録をはじめる</h2>
+                  <p>カテゴリーをタップして開始</p>
                 </div>
-                <div className="timer-digits">00:00:00</div>
-                <p>
-                  下のカテゴリーをタップするだけ。
-                  <br />
-                  日々の時間が、少しずつ見えてきます。
-                </p>
               </div>
             )}
           </section>
           <section className="categories-section">
             <div className="section-title">
-              <h2>タップして記録</h2>
+              <h2>カテゴリー</h2>
               <span>
                 {running.length ? "メインの記録を切り替え" : "ワンタップで開始"}
               </span>
@@ -172,7 +153,6 @@ export function RecordPage({
           <section className="overview-card">
             <div className="section-title">
               <h2>今日の積み重ね</h2>
-              <span className="tiny-label">TODAY</span>
             </div>
             <div className="overview-total">
               {formatDuration(summary.recorded)}
@@ -237,14 +217,6 @@ export function RecordPage({
               )}
             </div>
           </section>
-          <div className="gentle-note">
-            <span className="little-leaf">↗</span>
-            <p>
-              すべての時間を埋めなくても大丈夫。
-              <br />
-              残したい時間から、少しずつ。
-            </p>
-          </div>
         </aside>
       </div>
       <div className="sr-only" role="status">

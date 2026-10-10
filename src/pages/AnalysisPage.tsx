@@ -66,11 +66,6 @@ export function AnalysisPage({ data, now }: { data: AppData; now: number }) {
         : `${dateLabel(days[0])} – ${dateLabel(days.at(-1)!)}`;
   return (
     <>
-      <div className="page-heading">
-        <div className="eyebrow">FIND YOUR OWN RHYTHM</div>
-        <h1>時間のふりかえり</h1>
-        <p>数字で見える、日々の積み重ね。</p>
-      </div>
       <div className="analysis-controls">
         <div className="segmented" aria-label="集計期間">
           {(["day", "week", "month"] as Period[]).map((p, i) => (
@@ -133,7 +128,6 @@ export function AnalysisPage({ data, now }: { data: AppData; now: number }) {
         <section className="panel distribution">
           <div className="section-title">
             <h2>時間の内訳</h2>
-            <span className="tiny-label">ACTIVITY</span>
           </div>
           <div className="donut-area">
             <div

@@ -48,7 +48,9 @@ test("the built app loads assets and restores records under the GitHub Pages pat
   await page.reload();
   await expect(page.getByLabel("勉強の経過時間")).toHaveText("00:01:00");
   await page.getByRole("button", { name: "終了", exact: true }).click();
-  await expect(page.getByText("あなたのペースで、はじめよう")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "記録をはじめる" }),
+  ).toBeVisible();
   const navigation = page.getByRole("navigation", {
     name: "タブナビゲーション",
   });
