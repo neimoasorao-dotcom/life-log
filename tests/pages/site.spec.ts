@@ -2,7 +2,22 @@ import { test, expect } from "@playwright/test";
 
 test("the built app loads assets and restores records under the GitHub Pages path", async ({
   page,
-}) => {
+  request,
+}, testInfo) => {
+  if (process.env.EXPECTED_BUILD_SHA) {
+    await expect
+      .poll(
+        async () => {
+          const response = await request.get(
+            `/life-log/version.json?check=${Date.now()}`,
+          );
+          if (!response.ok()) return `HTTP ${response.status()}`;
+          return (await response.json()).revision;
+        },
+        { timeout: 60_000, intervals: [1000, 2000, 5000] },
+      )
+      .toBe(process.env.EXPECTED_BUILD_SHA);
+  }
   const failures: string[] = [];
   page.on("pageerror", (error) => failures.push(error.message));
   page.on("requestfailed", (request) => failures.push(request.url()));
@@ -11,7 +26,9 @@ test("the built app loads assets and restores records under the GitHub Pages pat
       failures.push(`${response.status()} ${response.url()}`);
   });
   await page.clock.install({ time: new Date("2026-10-12T10:00:00+09:00") });
-  await page.goto("/life-log/");
+  await page.goto(
+    `/life-log/?build=${process.env.EXPECTED_BUILD_SHA ?? "local"}`,
+  );
   await expect(
     page.getByRole("heading", { name: "記録", exact: true }),
   ).toBeVisible();
@@ -49,4 +66,8 @@ test("the built app loads assets and restores records under the GitHub Pages pat
     ),
   ).toBe(true);
   expect(failures).toEqual([]);
+  await page.screenshot({
+    path: testInfo.outputPath("published-app.png"),
+    fullPage: true,
+  });
 });

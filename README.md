@@ -32,11 +32,13 @@ npm run dev -- --port 5173
 
 クラウド環境内で実装・起動しただけでは、GitHub Pagesのサイトは更新されません。公開するには、ソースコードとロックファイル、`.github/workflows/deploy-pages.yml` をGitHubに反映する必要があります。
 
-1. GitHubのリポジトリで **Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定します。
-2. 実装一式を `main` に反映します。Actionsの **Deploy life log to GitHub Pages** がテストとビルドを実行し、`dist` を公開します。必要なら **Run workflow** から再実行できます。
+1. 実装一式を `main` に反映します。Actionsの **Deploy life log to GitHub Pages** がテストとビルドを実行し、`dist` を公開します。必要なら **Run workflow** から再実行できます。
+2. ワークフローはPagesの公開元を **GitHub Actions** に統一します。設定変更の権限が不足して停止した場合は、**Settings → Pages → Build and deployment → Source** を **GitHub Actions** に設定してから再実行します。
 3. ワークフローの `deploy` が成功した後、`https://neimoasorao-dotcom.github.io/life-log/` を開きます。
 
-READMEだけが表示される場合は、READMEを配信する旧設定のままか、アプリの公開がまだ完了していません。公開完了後も古い画面が残るときは再読み込みしてください。ブラウザの保存データを削除する必要はありません。
+READMEだけ・白画面の場合は、旧来のブランチ公開が未ビルドのソースを配信している可能性があります。旧公開とアプリ公開を併用せず、Sourceは **GitHub Actions** に統一してください。公開後は `verify` ジョブが、公開先のリビジョン・アセット読込・4タブ・タイマー再読み込みをChromiumとWebKitで確認します。画面画像と失敗時のトレースは `published-site-test-results` に保存されます。公開完了後も古い画面が残るときは再読み込みしてください。ブラウザの保存データを削除する必要はありません。
+
+公開前のパステストは `npm run test:pages` で両エンジンを実行します。Chromiumのみが利用可能な環境では `npm run test:pages -- --project=chromium-mobile` を使います。
 
 公開ビルドは `VITE_BASE_PATH=/life-log/` を指定し、JavaScript・CSS・アイコンのパスをサイトの配置先に合わせます。ローカル開発は従来どおりルートパスです。
 
